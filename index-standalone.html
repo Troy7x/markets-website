@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Resources - Civil Engineering</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'luxury-black': '#0a0a0a',
+                        'luxury-black-deep': '#000000',
+                        'luxury-gold': '#D4AF37',
+                        'luxury-gold-light': '#E5C158',
+                        'text-off-white': '#F5F5F5',
+                        'text-silver': '#C0C0C0',
+                    },
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: 2;
+        }
+        @media (min-width: 768px) {
+            .slide-overlay {
+                display: none;
+            }
+        }
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .slide:not(.active) {
+            opacity: 0;
+            visibility: hidden;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease;
+        }
+        .animate-fade-in-left {
+            animation: fadeInLeft 0.6s ease;
+        }
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #D4AF37;
+            background: rgba(212, 175, 55, 0.1);
+            color: #D4AF37;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        @media (min-width: 768px) {
+            .nav-btn {
+                width: 60px;
+                height: 60px;
+            }
+        }
+        .nav-btn:hover {
+            background: #D4AF37;
+            color: #000000;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 1);
+        }
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .slide-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #D4AF37;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+        @media (min-width: 768px) {
+            .slide-title {
+                font-size: 4.5rem;
+            }
+        }
+        .slide-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #D4AF37;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+        @media (min-width: 768px) {
+            .slide-heading {
+                font-size: 3.5rem;
+            }
+        }
+        .arabic-text {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #E5C158;
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+        @media (min-width: 768px) {
+            .arabic-text {
+                font-size: 1.8rem;
+            }
+        }
+        .slide-description {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: #F5F5F5;
+            line-height: 1.8;
+            margin-bottom: 1.25rem;
+            max-width: 56rem;
+        }
+        @media (min-width: 768px) {
+            .slide-description {
+                font-size: 1.4rem;
+            }
+        }
+        .slide-detail {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            color: #C0C0C0;
+            font-style: italic;
+            margin-top: 1.25rem;
+        }
+        @media (min-width: 768px) {
+            .slide-detail {
+                font-size: 1.2rem;
+            }
+        }
+        .slide-note {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: #C0C0C0;
+            font-style: italic;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-left: 4px solid #D4AF37;
+            background: rgba(212, 175, 55, 0.05);
+            max-width: 48rem;
+            text-align: left;
+        }
+        @media (min-width: 768px) {
+            .slide-note {
+                font-size: 1.1rem;
+            }
+        }
+        .responsibilities-list {
+            list-style: none;
+            text-align: left;
+            max-width: 56rem;
+            margin: 1.875rem auto 0;
+            padding: 0;
+        }
+        .responsibilities-list li {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: #F5F5F5;
+            line-height: 1.8;
+            margin-bottom: 1.25rem;
+            padding-left: 2.25rem;
+            position: relative;
+            animation: fadeInLeft 0.6s ease;
+            animation-fill-mode: both;
+        }
+        @media (min-width: 768px) {
+            .responsibilities-list li {
+                font-size: 1.3rem;
+            }
+        }
+        .responsibilities-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #D4AF37;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-luxury-black-deep text-text-off-white font-sans overflow-hidden h-screen relative">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-luxury-gold/20 z-[1000]">
+        <div class="h-full bg-luxury-gold transition-all duration-500 shadow-[0_0_10px_rgba(212,175,55,1)]" id="progressFill" style="width: 12.5%;"></div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="fixed bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex gap-4 md:gap-5 z-[1000]">
+        <button class="nav-btn" id="prevBtn" aria-label="Previous slide">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </button>
+        <button class="nav-btn" id="nextBtn" aria-label="Next slide">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Branding -->
+    <div class="fixed bottom-3 md:bottom-5 right-4 md:right-8 text-luxury-gold font-serif text-xs md:text-sm tracking-widest z-[1000] opacity-80">
+        Athenes / Russki0
+    </div>
+
+    <!-- Slide Container -->
+    <div class="relative w-full h-screen overflow-hidden">
+        <!-- Slide 1: Title & Definition -->
+        <div class="slide active absolute inset-0 w-full h-screen opacity-100 visible transition-opacity duration-500 ease-in-out" data-slide="1">
+            <div class="relative w-full h-full flex items-center justify-center">
+                <div class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat z-[1]" style="background-image: url('Photos/IMG-20251118-WA0071.jpg');"></div>
+                <div class="slide-overlay"></div>
+                <div class="relative z-[3] max-w-6xl px-10 md:px-16 text-center animate-fade-in-up">
+                    <h1 class="slide-title">Water Resources - Civil Engineering</h1>
+                    <p class="slide-description">
+                        Civil engineering's water resources subfield focuses on the sustainable management, development, and conservation of water for various purposes, including ensuring clean water supplies, managing flood control, supporting agriculture, and maintaining ecosystems.
+                    </p>
+                    <p class="slide-detail">
+                        Involves designing and maintaining infrastructure like dams, reservoirs, pipelines.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Water Supply -->
+        <div class="slide absolute inset-0 w-full h-screen opacity-0 invisible transition-opacity duration-500 ease-in-out" data-slide="2">
+            <div class="relative w-full h-full flex flex-col md:flex-row">
+                <div class="absolute md:relative inset-0 md:w-1/2 h-full bg-cover bg-center bg-no-repeat z-[1]" style="background-image: url('Photos/IMG-20251118-WA0072.jpg');"></div>
+                <div class="slide-overlay md:hidden"></div>
+                <div class="absolute md:relative inset-0 md:w-1/2 md:inset-auto h-full md:h-auto flex items-center justify-center z-[3] px-6 md:px-12 lg:px-16 py-12 md:py-0">
+                    <div class="w-full max-w-2xl text-center md:text-left animate-fade-in-up">
+                    <h2 class="slide-heading">Water Supply</h2>
+                    <p class="slide-description md:mx-0">
+                        Designing and managing systems to provide clean water from sources like rivers, lakes, and groundwater to public and industrial users.
+                    </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Flood Control -->
+        <div class="slide absolute inset-0 w-full h-screen opacity-0 invisible transition-opacity duration-500 ease-in-out" data-slide="3">
+            <div class="relative w-full h-full flex flex-col md:flex-row">
+                <div class="absolute md:relative inset-0 md:w-1/2 h-full bg-cover bg-center bg-no-repeat z-[1]" style="background-image: url('Photos/IMG-20251118-WA0073.jpg');"></div>
+                <div class="slide-overlay md:hidden"></div>
+                <div class="absolute md:relative inset-0 md:w-1/2 md:inset-auto h-full md:h-auto flex items-center justify-center z-[3] px-6 md:px-12 lg:px-16 py-12 md:py-0">
+                    <div class="w-full max-w-2xl text-center md:text-left animate-fade-in-up">
+                    <h2 class="slide-heading">Flood Control</h2>
+                    <p class="slide-description md:mx-0">
+                        Developing structures like levees, dams, and reservoirs to manage water flow and protect communities from flooding.
+                    </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Wastewater Management -->
+        <div class="slide absolute inset-0 w-full h-screen opacity-0 invisible transition-opacity duration-500 ease-in-out" data-slide="4">
+            <div class="relative w-full h-full flex flex-col md:flex-row">
+                <div class="absolute md:relative inset-0 md:w-1/2 h-full bg-cover bg-center bg-no-repeat z-[1]" style="background-image: url('Photos/IMG-20251118-WA0074.jpg');"></div>
+                <div class="slide-overlay md:hidden"></div>
+                <div class="absolute md:relative inset-0 md:w-1/2 md:inset-auto h-full md:h-auto flex items-center justify-center z-[3] px-6 md:px-12 lg:px-16 py-12 md:py-0">
+                    <div class="w-full max-w-2xl text-center md:text-left animate-fade-in-up">
+                    <h2 class="slide-heading">Wastewater Management</h2>
+                    <p class="slide-description md:mx-0">
+                        Creating systems for treating wastewater to a safe level for reuse or release into the environment.
+                    </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Hydropower -->
+        <div class="slide absolute inset-0 w-full h-screen opacity-0 invisible transition-opacity duration-500 ease-in-out" data-slide="5">
+            <div class="relative w-full h-full flex flex-col md:flex-row">
+                <div class="absolute md:relative inset-0 md:w-1/2 h-full bg-cover bg-center bg-no-repeat z-[1]" style="background-image: url('Photos/IMG-20251118-WA0075.jpg');"></div>
+                <div class="slide-overlay md:hidden"></div>
+                <div class="absolute md:relative inset-0 md:w-1/2 md:inset-auto h-full md:h-auto flex items-center justify-center z-[3] px-6 md:px-12 lg:px-16 py-12 md:py-0">
+                    <div class="w-full max-w-2xl text-center md:text-left animate-fade-in-up">
+                    <h2 class="slide-heading">Hydropower</h2>
+                    <p class="slide-description md:mx-0">
+                        Designing dams and turbines to harness energy from water flow for a renewable energy source.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Irrigation -->
+        <div class="slide absolute inset-0 w-full h-screen opacity-0 invisible transition-opacity duration-500 ease-in-out" data-slide="6">
+            <div class="relative w-full h-full flex flex-col md:flex-row">
+                <div class="absolute md:relative inset-0 md:w-1/2 h-full bg-cover bg-center bg-no-repeat z-[1]" style="background-image: url('Photos/IMG-20251118-WA0076.jpg');"></div>
+                <div class="slide-overlay md:hidden"></div>
+                <div class="absolute md:relative inset-0 md:w-1/2 md:inset-auto h-full md:h-auto flex items-center justify-center z-[3] px-6 md:px-12 lg:px-16 py-12 md:py-0">
+                    <div class="w-full max-w-2xl text-center md:text-left animate-fade-in-up">
+                    <h2 class="slide-heading">Irrigation</h2>
+                    <p class="slide-description md:mx-0">
+                        Developing and maintaining irrigation systems to ensure a reliable water supply for agriculture.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Environmental Protection -->
+        <div class="slide absolute inset-0 w-full h-screen opacity-0 invisible transition-opacity duration-500 ease-in-out" data-slide="7">
+            <div class="relative w-full h-full flex flex-col md:flex-row">
+                <div class="absolute md:relative inset-0 md:w-1/2 h-full bg-cover bg-center bg-no-repeat z-[1]" style="background-image: url('Photos/IMG-20251118-WA0071.jpg');"></div>
+                <div class="slide-overlay md:hidden"></div>
+                <div class="absolute md:relative inset-0 md:w-1/2 md:inset-auto h-full md:h-auto flex items-center justify-center z-[3] px-6 md:px-12 lg:px-16 py-12 md:py-0">
+                    <div class="w-full max-w-2xl text-center md:text-left animate-fade-in-up">
+                    <h2 class="slide-heading">Environmental Protection</h2>
+                    <p class="slide-description md:mx-0">
+                        Addressing issues like water pollution and the health of aquatic ecosystems through sustainable management practices.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Responsibilities -->
+        <div class="slide absolute inset-0 w-full h-screen opacity-0 invisible transition-opacity duration-500 ease-in-out" data-slide="8">
+            <div class="relative w-full h-full flex flex-col md:flex-row">
+                <div class="absolute md:relative inset-0 md:w-1/2 h-full bg-cover bg-center bg-no-repeat z-[1]" style="background-image: url('Photos/IMG-20251118-WA0072.jpg');"></div>
+                <div class="slide-overlay md:hidden"></div>
+                <div class="absolute md:relative inset-0 md:w-1/2 md:inset-auto h-full md:h-auto flex items-center justify-center z-[3] px-6 md:px-12 lg:px-16 py-12 md:py-0">
+                    <div class="w-full max-w-2xl text-center md:text-left animate-fade-in-up">
+                    <h2 class="slide-heading">Common Tasks & Responsibilities</h2>
+                    <ul class="responsibilities-list max-w-3xl md:mx-0 mx-auto text-left">
+                        <li style="animation-delay: 0.1s;">Analyzing data to design and improve water treatment and distribution systems.</li>
+                        <li style="animation-delay: 0.2s;">Overseeing the construction of water-related infrastructure.</li>
+                        <li style="animation-delay: 0.3s;">Ensuring projects are compliant with regulations and budget constraints.</li>
+                        <li style="animation-delay: 0.4s;">Managing the maintenance of water systems after completion.</li>
+                        <li style="animation-delay: 0.5s;">Assessing water availability and demand.</li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
